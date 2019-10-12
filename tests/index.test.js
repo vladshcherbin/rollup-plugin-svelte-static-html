@@ -36,3 +36,14 @@ test('Basic', async () => {
   expect(await fs.pathExists('dist/index.html')).toBe(true)
   expect(await readFile('dist/index.html')).toBe(await readFile('samples/basic.html'))
 })
+
+test('Nested', async () => {
+  await build({
+    component: 'src/nested/App.svelte',
+    output: 'dist/index.html'
+  })
+
+  expect(await fs.pathExists('dist/app.js')).toBe(true)
+  expect(await fs.pathExists('dist/index.html')).toBe(true)
+  expect(await readFile('dist/index.html')).toBe(await readFile('samples/nested.html'))
+})
