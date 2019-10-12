@@ -2,5 +2,13 @@
   "name": "rollup-plugin-svelte-static-html",
   "version": "1.0.0",
   "main": "index.js",
+  "scripts": {
+    "lint": "eslint src"
+  },
+  "devDependencies": {
+    "eslint": "^6.5.1",
+    "eslint-config-airbnb-base": "^14.0.0",
+    "eslint-plugin-import": "^2.18.2"
+  },
   "license": "MIT"
 }
