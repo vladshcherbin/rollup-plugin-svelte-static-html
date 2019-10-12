@@ -47,3 +47,17 @@ test('Nested', async () => {
   expect(await fs.pathExists('dist/index.html')).toBe(true)
   expect(await readFile('dist/index.html')).toBe(await readFile('samples/nested.html'))
 })
+
+test('Props', async () => {
+  await build({
+    component: 'src/props/App.svelte',
+    props: {
+      title: 'Rollup'
+    },
+    output: 'dist/index.html'
+  })
+
+  expect(await fs.pathExists('dist/app.js')).toBe(true)
+  expect(await fs.pathExists('dist/index.html')).toBe(true)
+  expect(await readFile('dist/index.html')).toBe(await readFile('samples/props.html'))
+})
