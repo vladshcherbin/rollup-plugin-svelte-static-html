@@ -1,9 +1,11 @@
 import vm from 'vm'
 import fs from 'fs-extra'
-import rollup from 'rollup'
+import { rollup } from 'rollup'
 import resolve from 'rollup-plugin-node-resolve'
 import svelte from 'rollup-plugin-svelte'
 import sveltePreprocess from 'svelte-preprocess'
+import posthtml from 'posthtml'
+import beautify from 'posthtml-beautify'
 
 // TODO check node version for vm
 // TODO pass preprocess options
@@ -17,6 +19,10 @@ import sveltePreprocess from 'svelte-preprocess'
 export default function svelteStaticHtml(options = {}) {
   const { component, output } = options
 
+  if (!component) {
+    throw new Error('You must specify "component"')
+  }
+
   if (!output) {
     throw new Error('You must specify "output"')
   }
@@ -24,7 +30,7 @@ export default function svelteStaticHtml(options = {}) {
   return {
     name: 'svelte-static-html',
     writeBundle: async () => {
-      const { generate } = await rollup.rollup({
+      const { generate } = await rollup({
         input: component,
         plugins: [
           resolve(),
@@ -39,7 +45,15 @@ export default function svelteStaticHtml(options = {}) {
       const { render } = vm.runInNewContext(code, { module })
       const { css, head, html } = render()
 
-      await fs.outputFile(output, html)
+      const processedHtml = await posthtml([
+        beautify({
+          rules: {
+            blankLines: false
+          }
+        })
+      ]).process(html)
+
+      await fs.outputFile(output, processedHtml.html)
     }
   }
 }
