@@ -51,13 +51,24 @@ test('Nested', async () => {
 test('Props', async () => {
   await build({
     component: 'src/props/App.svelte',
-    props: {
-      title: 'Rollup'
-    },
-    output: 'dist/index.html'
+    output: 'dist/index.html',
+    props: { title: 'Rollup' }
   })
 
   expect(await fs.pathExists('dist/app.js')).toBe(true)
   expect(await fs.pathExists('dist/index.html')).toBe(true)
   expect(await readFile('dist/index.html')).toBe(await readFile('samples/props.html'))
+})
+
+test('Template', async () => {
+  await build({
+    component: 'src/template/App.svelte',
+    output: 'dist/index.html',
+    props: { title: 'Rollup' },
+    template: 'src/template/template.html'
+  })
+
+  expect(await fs.pathExists('dist/app.js')).toBe(true)
+  expect(await fs.pathExists('dist/index.html')).toBe(true)
+  expect(await readFile('dist/index.html')).toBe(await readFile('samples/template.html'))
 })
