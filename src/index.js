@@ -7,7 +7,6 @@ import sveltePreprocess from 'svelte-preprocess'
 import posthtml from 'posthtml'
 import beautify from 'posthtml-beautify'
 
-// TODO define node version
 // TODO pass preprocess options
 // TODO add possibility to pass custom preprocess function / array?
 // TODO template, test head
