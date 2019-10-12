@@ -7,7 +7,7 @@ import sveltePreprocess from 'svelte-preprocess'
 import posthtml from 'posthtml'
 import beautify from 'posthtml-beautify'
 
-// TODO check node version for vm
+// TODO define node version
 // TODO pass preprocess options
 // TODO add possibility to pass custom preprocess function / array?
 // TODO template, test head
@@ -17,7 +17,7 @@ import beautify from 'posthtml-beautify'
 // TODO move error in hook?
 // TODO css, head ?
 export default function svelteStaticHtml(options = {}) {
-  const { component, output } = options
+  const { component, props, output } = options
 
   if (!component) {
     throw new Error('You must specify "component"')
@@ -43,7 +43,7 @@ export default function svelteStaticHtml(options = {}) {
       const bundle = await generate({ format: 'cjs' })
       const { code } = bundle.output.find((chunkOrAsset) => chunkOrAsset.isEntry)
       const { render } = vm.runInNewContext(code, { module })
-      const { css, head, html } = render()
+      const { css, head, html } = render(props)
 
       const processedHtml = await posthtml([
         beautify({
