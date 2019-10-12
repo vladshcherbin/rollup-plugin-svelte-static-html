@@ -4100,6 +4100,14 @@ posthtml-beautify@^0.3.1:
     posthtml-parser "^0.4.1"
     posthtml-render "^1.1.5"
 
+posthtml-insert-at@^0.2.5:
+  version "0.2.5"
+  resolved "https://registry.yarnpkg.com/posthtml-insert-at/-/posthtml-insert-at-0.2.5.tgz#16238ca5b471e9dfcc6984abefcbcba5eca48a8e"
+  integrity sha512-gIP/Db/G44qQpRFWnY7RavpNz4s3siwaZVPDi+3Vaf1o6wBqCKm+ofybBgnEYT3Wmvw5Pkf+oUkB2Cc+He36dw==
+  dependencies:
+    posthtml "^0.11.6"
+    posthtml-parser "^0.4.1"
+
 posthtml-parser@^0.4.1:
   version "0.4.1"
   resolved "https://registry.yarnpkg.com/posthtml-parser/-/posthtml-parser-0.4.1.tgz#95b78fef766fbbe0a6f861b6e95582bc3d1ff933"
@@ -4112,6 +4120,14 @@ posthtml-render@^1.1.5:
   version "1.1.5"
   resolved "https://registry.yarnpkg.com/posthtml-render/-/posthtml-render-1.1.5.tgz#387934e85438a3de77085fbc7d264efb00bd0e0f"
   integrity sha512-yvt54j0zCBHQVEFAuR+yHld8CZrCa/E1Z/OcFNCV1IEWTLVxT8O7nYnM4IIw1CD4r8kaRd3lc42+0lgCKgm87w==
+
+posthtml@^0.11.6:
+  version "0.11.6"
+  resolved "https://registry.yarnpkg.com/posthtml/-/posthtml-0.11.6.tgz#e349d51af7929d0683b9d8c3abd8166beecc90a8"
+  integrity sha512-C2hrAPzmRdpuL3iH0TDdQ6XCc9M7Dcc3zEW5BLerY65G4tWWszwv6nG/ksi6ul5i2mx22ubdljgktXCtNkydkw==
+  dependencies:
+    posthtml-parser "^0.4.1"
+    posthtml-render "^1.1.5"
 
 posthtml@^0.12.0:
   version "0.12.0"
