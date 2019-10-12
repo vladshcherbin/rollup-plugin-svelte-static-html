@@ -50,10 +50,7 @@ export default function svelteStaticHtml(options = {}) {
       const { css, head, html } = render(props)
       const templateHtml = template ? await fs.readFile(template, 'utf8') : html
       const processedHtml = await posthtml([
-        template && insertAt({
-          selector,
-          prepend: html
-        }),
+        ...(template ? [insertAt({ selector, prepend: html })] : []),
         beautify({
           rules: {
             blankLines: false
