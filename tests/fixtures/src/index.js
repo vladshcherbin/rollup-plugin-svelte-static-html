@@ -1,1 +1,5 @@
-console.log('hey')
+function test() {
+  return 'test'
+}
+
+test()
