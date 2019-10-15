@@ -73,6 +73,31 @@ describe('Generate html', () => {
     expect(await readFile('dist/index.html')).toBe(await readFile('samples/props.html'))
   })
 
+  test('Inline css', async () => {
+    await build({
+      component: 'src/inline-css/App.svelte',
+      output: 'dist/index.html',
+      props: { title: 'Rollup' },
+      inlineCss: true
+    })
+
+    expect(await fs.pathExists('dist/app.js')).toBe(true)
+    expect(await fs.pathExists('dist/index.html')).toBe(true)
+    expect(await readFile('dist/index.html')).toBe(await readFile('samples/inline-css.html'))
+  })
+
+  test('Preprocess scss', async () => {
+    await build({
+      component: 'src/preprocess-scss/App.svelte',
+      output: 'dist/index.html',
+      inlineCss: true
+    })
+
+    expect(await fs.pathExists('dist/app.js')).toBe(true)
+    expect(await fs.pathExists('dist/index.html')).toBe(true)
+    expect(await readFile('dist/index.html')).toBe(await readFile('samples/preprocess-scss.html'))
+  })
+
   test('Template', async () => {
     await build({
       component: 'src/template/App.svelte',
@@ -84,5 +109,19 @@ describe('Generate html', () => {
     expect(await fs.pathExists('dist/app.js')).toBe(true)
     expect(await fs.pathExists('dist/index.html')).toBe(true)
     expect(await readFile('dist/index.html')).toBe(await readFile('samples/template.html'))
+  })
+
+  test('Template, inline css', async () => {
+    await build({
+      component: 'src/template-inline-css/App.svelte',
+      output: 'dist/index.html',
+      props: { title: 'Rollup' },
+      template: 'src/template-inline-css/template.html',
+      inlineCss: true
+    })
+
+    expect(await fs.pathExists('dist/app.js')).toBe(true)
+    expect(await fs.pathExists('dist/index.html')).toBe(true)
+    expect(await readFile('dist/index.html')).toBe(await readFile('samples/template-inline-css.html'))
   })
 })
