@@ -8,12 +8,24 @@ import posthtml from 'posthtml'
 import beautify from 'posthtml-beautify'
 import insertAt from 'posthtml-insert-at'
 
-// TODO template, test head
-// TODO inline styles
-// TODO css, head ?
+function formatCss(css) {
+  return css.replace('}\n', '}')
+}
+
+async function generateTemplateHtml(template, html, inlineCss, css) {
+  if (template) {
+    return fs.readFile(template, 'utf8')
+  }
+
+  return (inlineCss && css)
+    ? `<style>${formatCss(css)}</style>${html}`
+    : html
+}
+
 export default function svelteStaticHtml(options = {}) {
   const {
     component,
+    inlineCss = false,
     output,
     preprocess,
     props,
@@ -43,18 +55,22 @@ export default function svelteStaticHtml(options = {}) {
         ]
       })
       const bundle = await generate({ format: 'cjs' })
-      const { code } = bundle.output.find((chunkOrAsset) => chunkOrAsset.isEntry)
-      const { render } = vm.runInNewContext(code, { module })
-      const { css, head, html } = render(props)
-      const templateHtml = template ? await fs.readFile(template, 'utf8') : html
+      const entryChunk = bundle.output.find((chunkOrAsset) => chunkOrAsset.isEntry)
+      const Component = vm.runInNewContext(entryChunk.code, { module })
+      const { css, html } = Component.render(props)
+      const templateHtml = await generateTemplateHtml(template, html, inlineCss, css.code)
       const processedHtml = await posthtml([
-        ...(template ? [insertAt({ selector, prepend: html })] : []),
+        template && insertAt({ selector, prepend: html }),
+        template && inlineCss && css.code && insertAt({
+          selector: 'head',
+          append: `<style>${formatCss(css.code)}</style>`
+        }),
         beautify({
           rules: {
             blankLines: false
           }
         })
-      ]).process(templateHtml)
+      ].filter(Boolean)).process(templateHtml)
 
       await fs.outputFile(output, processedHtml.html)
     }
