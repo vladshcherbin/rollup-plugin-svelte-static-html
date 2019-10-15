@@ -8,8 +8,6 @@ import posthtml from 'posthtml'
 import beautify from 'posthtml-beautify'
 import insertAt from 'posthtml-insert-at'
 
-// TODO pass preprocess options
-// TODO add possibility to pass custom preprocess function / array?
 // TODO template, test head
 // TODO inline styles
 // TODO css, head ?
@@ -17,6 +15,7 @@ export default function svelteStaticHtml(options = {}) {
   const {
     component,
     output,
+    preprocess,
     props,
     selector = 'body',
     template
@@ -38,7 +37,7 @@ export default function svelteStaticHtml(options = {}) {
         plugins: [
           resolve(),
           svelte({
-            preprocess: sveltePreprocess(),
+            preprocess: preprocess || sveltePreprocess(),
             generate: 'ssr'
           })
         ]
