@@ -12,7 +12,6 @@ import insertAt from 'posthtml-insert-at'
 // TODO add possibility to pass custom preprocess function / array?
 // TODO template, test head
 // TODO inline styles
-// TODO move error in hook?
 // TODO css, head ?
 export default function svelteStaticHtml(options = {}) {
   const {
@@ -24,16 +23,16 @@ export default function svelteStaticHtml(options = {}) {
   } = options
 
   if (!component) {
-    throw new Error('You must specify "component"')
+    throw new Error('(plugin svelte-static-html) "component" must be specified')
   }
 
   if (!output) {
-    throw new Error('You must specify "output"')
+    throw new Error('(plugin svelte-static-html) "output" must be specified')
   }
 
   return {
     name: 'svelte-static-html',
-    writeBundle: async () => {
+    async writeBundle() {
       const { generate } = await rollup({
         input: component,
         plugins: [
