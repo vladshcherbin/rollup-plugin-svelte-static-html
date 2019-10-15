@@ -12,7 +12,7 @@ function formatCss(css) {
   return css.replace('}\n', '}')
 }
 
-async function generateTemplateHtml(template, html, inlineCss, css) {
+async function generateHtmlTemplate(template, html, css, inlineCss) {
   if (template) {
     return fs.readFile(template, 'utf8')
   }
@@ -58,7 +58,7 @@ export default function svelteStaticHtml(options = {}) {
       const entryChunk = bundle.output.find((chunkOrAsset) => chunkOrAsset.isEntry)
       const Component = vm.runInNewContext(entryChunk.code, { module })
       const { css, html } = Component.render(props)
-      const templateHtml = await generateTemplateHtml(template, html, inlineCss, css.code)
+      const htmlTemplate = await generateHtmlTemplate(template, html, css.code, inlineCss)
       const processedHtml = await posthtml([
         template && insertAt({ selector, prepend: html }),
         template && inlineCss && css.code && insertAt({
@@ -70,7 +70,7 @@ export default function svelteStaticHtml(options = {}) {
             blankLines: false
           }
         })
-      ].filter(Boolean)).process(templateHtml)
+      ].filter(Boolean)).process(htmlTemplate)
 
       await fs.outputFile(output, processedHtml.html)
     }
