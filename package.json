@@ -1,7 +1,7 @@
 {
   "name": "rollup-plugin-svelte-static-html",
   "description": "Generate static html file from your Svelte component using Rollup",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "author": "Vlad Shcherbin <vlad.shcherbin@gmail.com>",
   "repository": "vladshcherbin/rollup-plugin-svelte-static-html",
   "main": "dist/index.cjs.js",
@@ -21,7 +21,7 @@
     "posthtml-insert-at": "^0.2.6",
     "rollup": "^1.24.0",
     "rollup-plugin-node-resolve": "^5.2.0",
-    "rollup-plugin-svelte": "^5.1.0",
+    "rollup-plugin-svelte": "^6.1.1",
     "svelte": "^3.12.1",
     "svelte-preprocess": "^3.1.2"
   },
